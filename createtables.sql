@@ -9,25 +9,32 @@ CREATE TABLE users (
 CREATE TABLE news (
     id INTEGER AUTO_INCREMENT,
     username VARCHAR(30) NOT NULL,
-    title VARCHAR(255),  -- Added title, wasen't in master
+    title VARCHAR(255),  
     news VARCHAR(500),
-    ts TIMESTAMP DEFAULT NOW(),
+    ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     score INTEGER DEFAULT 0,
-    upvotes INTEGER DEFAULT 0,  -- Added upvotes, wasen't in master
-    downvotes INTEGER DEFAULT 0,  -- Added downvotes, wasen't in master
-    PRIMARY KEY (id)
+    upvotes INTEGER DEFAULT 0, 
+    downvotes INTEGER DEFAULT 0,  
+    PRIMARY KEY (id),
+    FOREIGN KEY (username) REFERENCES users(username)
 );
 
 CREATE TABLE pluses (
     id INTEGER AUTO_INCREMENT,
     username VARCHAR(30),
     newsid INTEGER,
-    score INTEGER
- 
+    score INTEGER DEFAULT 1,
+    ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (username) REFERENCES users(username),
+    FOREIGN KEY (newsid) REFERENCES news(id)
+);
+
+
 DEFAULT
  
 1,
-    ts TIMESTAMP
+    ts TIMESTAMPs
  
 DEFAULT NOW(),
     PRIMARY KEY (id)
