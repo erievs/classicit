@@ -38,11 +38,14 @@
 		   });
 	   });
 	</script>
+
 	<?php
+    require_once 'db.php';
+
 	session_start();
 	// this will trigger when submit button click
 	if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['sign-in'])){
-        $link = mysqli_connect("localhost", "st2014", "progress", "st2014");
+        $link = mysqli_connect($host, $user, $pass, $db);
         // Check connection
         if($link === false){
             die("ERROR: Could not connect. " . mysqli_connect_error());
@@ -50,7 +53,7 @@
         $username = mysqli_real_escape_string($link, $_POST['loginusername']);
         $password = mysqli_real_escape_string($link, $_POST['loginpw']);
 		// create query
-		$query = "SELECT * FROM t164053_users WHERE username='$username' AND password='$password'";
+		$query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
 		$sql = $link->query($query);
 		$n = $sql->num_rows;
 		// if $n is > 0 it mean account exists

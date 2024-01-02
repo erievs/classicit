@@ -47,8 +47,8 @@ require 'db.php';
   	</div>
 	<div class="content-container">
 		<?php
-		$link = mysqli_connect("localhost", "st2014", "progress", "st2014");
-		$query = "SELECT id, username, news, ts, score, title, upvotes, downvotes FROM t164053_news ORDER BY log10(abs(upvotes-downvotes) + 1)*sign(upvotes-downvotes)+(unix_timestamp(ts)/300000) DESC";
+		$link = mysqli_connect("localhost", "root", "tBFO6DH@", "classicit");
+		$query = "SELECT id, username, news, ts, score, title, upvotes, downvotes FROM news ORDER BY log10(abs(upvotes-downvotes) + 1)*sign(upvotes-downvotes)+(unix_timestamp(ts)/300000) DESC";
 		$result = mysqli_query($link, $query);
 		if ($link === false) {
 			die("ERROR: Could not connect. " . mysqli_connect_error());
