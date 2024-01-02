@@ -11,7 +11,7 @@
 	<meta name="description" content="Reddit" />
 	<link rel="shortcut icon" href="images/favicon.ico">
 	<link rel="stylesheet" href="styles/style.css" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> <!-- TODO: - Make this a local resource rather than external -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -45,7 +45,7 @@
 		$link = mysqli_connect("", "", "", "");
         $postid = $_REQUEST['postid'];
         $postid = mysqli_real_escape_string($link, $postid);
-		$query = "SELECT * FROM t164053_news WHERE id='$postid'";
+		$query = "SELECT * FROM news WHERE id='$postid'";
 		$result = mysqli_query($link, $query);
 		if ($link === false) {
 			die("ERROR: Could not connect. " . mysqli_connect_error());

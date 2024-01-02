@@ -1,5 +1,9 @@
 <?php
-$link = mysqli_connect("", "", "", "");
+
+require_once 'db.php';
+
+$link = mysqli_connect($host, $user, $pass, $db);
+
 $id = $_REQUEST['postid'];
 $username = $_REQUEST['username'];
 $points = $_REQUEST['vote'];
@@ -10,9 +14,9 @@ if (!($points >= -1 && $points <= 1)) {
 if ($link === false) {
     die("ERROR: Could not connect. " . mysqli_connect_error());
 }
-$vote = "INSERT INTO t164053_pluses (username, newsid, score)
+$vote = "INSERT INTO pluses (username, newsid, score)
                     VALUES ('$username', '$id', $points)";
-$check = "SELECT * FROM t164053_pluses
+$check = "SELECT * FROM pluses
                     WHERE newsid='$id' AND username='$username'";
 // finds row where given user has voted for given news article
 $result = mysqli_query($link, $check);
@@ -23,9 +27,9 @@ if($result->num_rows === 0) {
     echo "New vote";
     mysqli_query($link, $vote);
     if ($points == 1) {
-        $updatenews = "UPDATE t164053_news SET score=$points, upvotes=upvotes+1 WHERE id='$id'";
+        $updatenews = "UPDATE news SET score=$points, upvotes=upvotes+1 WHERE id='$id'";
     } elseif ($points == -1) {
-        $updatenews = "UPDATE t164053_news SET score=$points, downvotes=downvotes-1 WHERE id='$id'";
+        $updatenews = "UPDATE news SET score=$points, downvotes=downvotes-1 WHERE id='$id'";
     }
     mysqli_query($link, $updatenews);
 //user has already voted
@@ -33,15 +37,15 @@ if($result->num_rows === 0) {
     $currentvote = $row['score'];
     // if user hasn't already voted in this manner, new score will be added
     if ($currentvote != $points) {
-        $update = "UPDATE t164053_pluses SET score=score + $points WHERE newsid='$id' AND username='$username'";
+        $update = "UPDATE pluses SET score=score + $points WHERE newsid='$id' AND username='$username'";
         if ($points == 1 && $currentvote == -1) {
-            $updatenews = "UPDATE t164053_news SET score=score + $points, downvotes=downvotes-1 WHERE id='$id'";
+            $updatenews = "UPDATE news SET score=score + $points, downvotes=downvotes-1 WHERE id='$id'";
         } elseif ($points == -1 && $currentvote == 1) {
-            $updatenews = "UPDATE t164053_news SET score=score + $points, upvotes=upvotes-1 WHERE id='$id'";
+            $updatenews = "UPDATE news SET score=score + $points, upvotes=upvotes-1 WHERE id='$id'";
         } elseif ($points == -1 && $currentvote == 0) {
-            $updatenews = "UPDATE t164053_news SET score=score + $points, downvotes=downvotes+1 WHERE id='$id'";
+            $updatenews = "UPDATE news SET score=score + $points, downvotes=downvotes+1 WHERE id='$id'";
         } elseif ($points == 1 && $currentvote == 0) {
-            $updatenews = "UPDATE t164053_news SET score=score + $points, upvotes=upvotes+1 WHERE id='$id'";
+            $updatenews = "UPDATE news SET score=score + $points, upvotes=upvotes+1 WHERE id='$id'";
         }
         mysqli_query($link, $update);
         mysqli_query($link, $updatenews);
